@@ -7,311 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --maroon: #6e1423;
-    --maroon-deep: #3d0a14;
-    --ink: #1c1a1b;
-    --paper: #fbf9f8;
-    --stone: #e9e3e1;
-    --gold: #e8b53a;
-    --sky: #9ec4dc;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: "Source Serif 4", Georgia, serif;
-    color: var(--ink);
-    background: var(--paper);
-    line-height: 1.6;
-  }
-  a { color: inherit; }
-  :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
-  [hidden] { display: none !important; }
-
-  /* Announcement bar */
-  .notice {
-    background: var(--maroon-deep);
-    color: #fff;
-    text-align: center;
-    padding: 12px 20px;
-    font-family: "Archivo", sans-serif;
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  .notice a { text-decoration: underline; text-underline-offset: 3px; }
-
-  /* Nav */
-  header.nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 20px 5vw;
-    font-family: "Archivo", sans-serif;
-  }
-  .brand {
-    font-weight: 900;
-    font-size: 1.6rem;
-    letter-spacing: -0.02em;
-    color: var(--maroon);
-    text-decoration: none;
-    line-height: 1;
-  }
-  .brand small {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--ink);
-    margin-top: 4px;
-  }
-  nav ul { display: flex; gap: 28px; list-style: none; }
-  nav a { text-decoration: none; font-weight: 600; font-size: 0.95rem; }
-  nav a:hover { color: var(--maroon); }
-  .nav-cta {
-    background: var(--maroon);
-    color: #fff;
-    padding: 10px 20px;
-    font-weight: 800;
-    text-decoration: none;
-    font-size: 0.95rem;
-  }
-  .nav-cta:hover { background: var(--maroon-deep); }
-
-  /* Hero */
-  .hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: end;
-    min-height: 560px;
-    padding: 0 5vw;
-    overflow: hidden;
-    background: linear-gradient(180deg, #fff 0%, var(--paper) 100%);
-  }
-  .hero h1 {
-    font-family: "Archivo", sans-serif;
-    font-weight: 900;
-    font-size: clamp(3rem, 7.2vw, 6.6rem);
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    padding: 60px 0 80px;
-    align-self: center;
-  }
-  .hero h1 span { display: block; color: var(--ink); }
-  .hero h1 span.alt { color: var(--maroon); }
-  .photo {
-    position: relative;
-    align-self: stretch;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  }
-  .photo-placeholder {
-    width: min(100%, 420px);
-    height: 92%;
-    background:
-      radial-gradient(circle at 50% 22%, #d8cfcc 0 17%, transparent 17.5%),
-      radial-gradient(ellipse at 50% 100%, #d8cfcc 0 46%, transparent 46.5%);
-    display: grid;
-    place-items: end center;
-    padding-bottom: 18px;
-    font-family: "Archivo", sans-serif;
-    font-size: 0.8rem;
-    color: #7a706d;
-  }
-  .photo img { width: min(100%, 520px); max-height: 640px; object-fit: contain; object-position: bottom; display: block; position: relative; z-index: 1; }
-
-  /* Action strip */
-  .strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    gap: 10px;
-    padding: 0 5vw 28px;
-    margin-top: -36px;
-    position: relative;
-    z-index: 2;
-    font-family: "Archivo", sans-serif;
-  }
-  .strip .label {
-    font-weight: 900;
-    font-size: 1.5rem;
-    line-height: 1;
-    color: var(--maroon);
-    text-transform: uppercase;
-    align-self: center;
-    margin-right: 6px;
-  }
-  .strip a {
-    flex: 1 1 140px;
-    background: var(--maroon);
-    color: #fff;
-    text-align: center;
-    padding: 18px 12px;
-    font-weight: 800;
-    font-size: 1.15rem;
-    text-decoration: none;
-  }
-  .strip a:hover { background: var(--maroon-deep); }
-
-  /* Signup panel */
-  .signup {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    background: #0e0d0e;
-    color: #fff;
-  }
-  .signup .copy { padding: 72px 5vw; }
-  .signup blockquote {
-    font-family: "Archivo", sans-serif;
-    font-weight: 600;
-    font-size: clamp(1.3rem, 2.4vw, 2rem);
-    line-height: 1.3;
-    max-width: 30em;
-    position: relative;
-    padding-top: 56px;
-  }
-  .signup blockquote::before {
-    content: "\201C";
-    position: absolute;
-    top: -20px;
-    left: -6px;
-    font-size: 8rem;
-    line-height: 1;
-    color: var(--maroon);
-    font-family: Georgia, serif;
-  }
-  .signup h2 {
-    font-family: "Archivo", sans-serif;
-    font-weight: 600;
-    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--sky);
-    margin: 32px 0 24px;
-    max-width: 24em;
-  }
-  #signup-form {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 14px 16px;
-    max-width: 640px;
-    font-family: "Archivo", sans-serif;
-  }
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label { font-size: 0.85rem; font-weight: 600; }
-  .field input, .field select {
-    padding: 14px;
-    border: 0;
-    font: inherit;
-    font-size: 1rem;
-    background: #fff;
-    color: var(--ink);
-    border-radius: 0;
-  }
-  .submit-row { grid-column: 1 / -1; display: grid; grid-template-columns: 2fr 1fr; gap: 16px; align-items: end; }
-  button.join {
-    padding: 15px;
-    border: 0;
-    background: var(--gold);
-    color: var(--ink);
-    font: inherit;
-    font-weight: 900;
-    font-size: 1.05rem;
-    cursor: pointer;
-  }
-  button.join:hover { background: #f3c85e; }
-  button.join:disabled { opacity: 0.6; cursor: wait; }
-  .fine { grid-column: 1 / -1; font-size: 0.75rem; color: #b9b2b0; line-height: 1.5; }
-  #signup-error { grid-column: 1 / -1; display: none; color: #ff9d9d; font-weight: 600; font-size: 0.9rem; }
-  #thanks {
-    display: none;
-    font-family: "Archivo", sans-serif;
-    font-weight: 800;
-    font-size: 1.4rem;
-    color: var(--gold);
-    padding: 20px 0;
-  }
-  .stage {
-    position: relative;
-    overflow: hidden;
-    background: radial-gradient(circle at 70% 30%, #5a1a28 0%, #1a0b0f 60%);
-    display: grid;
-    place-items: center;
-    color: #8c7f7c;
-    font-family: "Archivo", sans-serif;
-    font-size: 0.85rem;
-    min-height: 320px;
-  }
-  .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .signup .stage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0e0d0e 0%, rgba(14,13,14,0) 35%); z-index: 1; pointer-events: none; }
-
-  /* Platform */
-  .pillars { padding: 88px 5vw; max-width: 1200px; margin: 0 auto; }
-  .pillars h2, .accountability h2, .voice h2 {
-    font-family: "Archivo", sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    margin-bottom: 12px;
-  }
-  .pillars > p.sub { max-width: 38em; margin-bottom: 48px; color: #4b4547; }
-  .pillar-list { display: grid; border-top: 3px solid var(--ink); }
-  .pillar {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 32px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--stone);
-  }
-  .pillar h3 { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 1.6rem; line-height: 1.15; color: var(--maroon); }
-  .pillar p { max-width: 40em; }
-  .pillar ul { margin: 12px 0 0 1.1em; }
-  .pillar li { margin-bottom: 4px; }
-
-  /* Ask / advocate (single embedded form) */
-  .voice { padding: 88px 5vw; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px; align-items: start; }
-  .voice .intro p { max-width: 30em; color: #4b4547; margin-bottom: 14px; }
-  .ms-form iframe { width: 100%; height: 760px; border: 2px solid var(--ink); background: #fff; display: block; }
-  .ms-form .fallback { font-family: "Archivo", sans-serif; font-size: 0.9rem; margin-top: 10px; }
-
-  /* Accountability */
-  .accountability { background: var(--stone); padding: 80px 5vw; }
-  .accountability .inner { max-width: 1200px; margin: 0 auto; }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 36px; }
-  .steps div { border-top: 3px solid var(--maroon); padding-top: 16px; }
-  .steps h3 { font-family: "Archivo", sans-serif; font-weight: 800; margin-bottom: 6px; }
-
-  footer {
-    background: var(--maroon-deep);
-    color: #e6dcda;
-    padding: 40px 5vw;
-    font-family: "Archivo", sans-serif;
-    font-size: 0.85rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px 40px;
-    justify-content: space-between;
-  }
-  footer p { max-width: 46em; }
-  footer a { text-underline-offset: 3px; }
-  footer a:hover { color: var(--gold); }
-
-  @media (max-width: 860px) {
-    nav ul { display: none; }
-    .hero, .signup { grid-template-columns: 1fr; }
-    .hero h1 { padding: 40px 0 20px; }
-    .photo { min-height: 320px; }
-    .pillar { grid-template-columns: 1fr; gap: 8px; }
-    .steps { grid-template-columns: 1fr; }
-    #signup-form, .submit-row { grid-template-columns: 1fr; }
-    .strip { margin-top: 0; padding-top: 24px; }
-    .voice { grid-template-columns: 1fr; gap: 32px; }
-  }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -320,11 +16,11 @@
 </div>
 
 <header class="nav">
-  <a class="brand" href="#">Chazlance Moore<small>for College Council 2030, Undergraduate Student Government</small></a>
+  <a class="brand" href="index.html">Chazlance Moore<small>for College Council 2030, Undergraduate Student Government</small></a>
   <nav aria-label="Main">
     <ul>
-      <li><a href="#about">My story</a></li>
-      <li><a href="#platform">Platform</a></li>
+      <li><a href="story.html">My story</a></li>
+      <li><a href="platform.html">Platform</a></li>
       <li><a href="#voice">Ask or advocate</a></li>
       <li><a href="#accountability">Accountability</a></li>
       <li><a href="#join">Get involved</a></li>
@@ -353,7 +49,7 @@
   <a href="#join">Get updates</a>
   <a href="#join">Get involved</a>
   <a href="#voice">Ask a question</a>
-  <a href="#platform">Read the platform</a>
+  <a href="platform.html">Read the platform</a>
 </div>
 
 <section class="signup" id="join">
@@ -413,6 +109,7 @@
           <li>Increase 2 UChicago Dorm Guest limit to 4</li>
           <li>Done by: Spring Quarter</li>
         </ul>
+        <a class="text-link" href="platform.html#community">Read the full Community plan</a>
       </div>
     </article>
     <article class="pillar">
@@ -425,6 +122,7 @@
           <li>Include menstrual products in dorm restrooms as a part of wellness needs.</li>
           <li>Done by: Spring Quarter</li>
         </ul>
+        <a class="text-link" href="platform.html#access">Read the full Access plan</a>
       </div>
     </article>
     <article class="pillar">
@@ -436,9 +134,11 @@
           <li>Provide receipts for Student Government Finance Committee purchases</li>
           <li>Done by: Spring Quarter</li>
         </ul>
+        <a class="text-link" href="platform.html#transparency">Read the full Transparency plan</a>
       </div>
     </article>
   </div>
+  <p class="more"><a class="btn" href="platform.html">Read the full platform</a></p>
 </section>
 
 <section class="voice" id="voice">
@@ -463,6 +163,29 @@
       <div><h3>Every quarter</h3><p>Post a public report.</p></div>
       <div><h3>End of term</h3><p>Share what got done, what didn't, and why.</p></div>
     </div>
+  </div>
+</section>
+
+<section class="letter-section" id="letter">
+  <div class="inner">
+    <h2>A letter to my classmates.</h2>
+    <p class="sub">I wrote this for you. Read it here, or open it full size.</p>
+    <figure class="letter">
+      <div class="letter-placeholder">Your letter image goes here<br>(images/letter.png)</div>
+      <a href="images/letter.png" target="_blank" rel="noopener" aria-label="Open the letter full size in a new tab">
+        <img src="images/letter.png"
+             alt="Letter from Chazlance Moore to the class. The full text is available in the section below the image."
+             loading="lazy"
+             onload="this.closest('figure').querySelector('.letter-placeholder').style.display='none'"
+             onerror="this.style.display='none'">
+      </a>
+    </figure>
+    <details class="transcript">
+      <summary>Read the letter as text</summary>
+      <div>
+        <p><span class="todo">[Paste the full text of your letter here, one &lt;p&gt; per paragraph. Screen readers and search engines can't read the image.]</span></p>
+      </div>
+    </details>
   </div>
 </section>
 
