@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Chazlance Moore for Undergraduate Student Government</title>
+<title>Chazlance Moore for Undergraduate Student Government</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
@@ -27,6 +27,7 @@
   }
   a { color: inherit; }
   :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  [hidden] { display: none !important; }
 
   /* Announcement bar */
   .notice {
@@ -66,11 +67,7 @@
     margin-top: 4px;
   }
   nav ul { display: flex; gap: 28px; list-style: none; }
-  nav a {
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
+  nav a { text-decoration: none; font-weight: 600; font-size: 0.95rem; }
   nav a:hover { color: var(--maroon); }
   .nav-cta {
     background: var(--maroon);
@@ -82,7 +79,7 @@
   }
   .nav-cta:hover { background: var(--maroon-deep); }
 
-  /* Hero: big stacked type, photo on the right */
+  /* Hero */
   .hero {
     position: relative;
     display: grid;
@@ -106,12 +103,12 @@
   .hero h1 span { display: block; color: var(--ink); }
   .hero h1 span.alt { color: var(--maroon); }
   .photo {
+    position: relative;
     align-self: stretch;
     display: flex;
     align-items: flex-end;
     justify-content: center;
   }
-  /* Replace this block with <img src="you.png"> (a cutout PNG looks best) */
   .photo-placeholder {
     width: min(100%, 420px);
     height: 92%;
@@ -125,8 +122,9 @@
     font-size: 0.8rem;
     color: #7a706d;
   }
+  .photo img { width: min(100%, 520px); max-height: 640px; object-fit: contain; object-position: bottom; display: block; position: relative; z-index: 1; }
 
-  /* Support strip (replaces the donation bar with an action bar) */
+  /* Action strip */
   .strip {
     display: flex;
     flex-wrap: wrap;
@@ -159,14 +157,14 @@
   }
   .strip a:hover { background: var(--maroon-deep); }
 
-  /* Signup panel: dark, quote + form on left, image on right */
+  /* Signup panel */
   .signup {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     background: #0e0d0e;
     color: #fff;
   }
-  .signup .copy { padding: 72px 5vw 72px 5vw; }
+  .signup .copy { padding: 72px 5vw; }
   .signup blockquote {
     font-family: "Archivo", sans-serif;
     font-weight: 600;
@@ -194,7 +192,7 @@
     margin: 32px 0 24px;
     max-width: 24em;
   }
-  form {
+  #signup-form {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 14px 16px;
@@ -221,16 +219,12 @@
     font: inherit;
     font-weight: 900;
     font-size: 1.05rem;
-    letter-spacing: 0.01em;
     cursor: pointer;
   }
   button.join:hover { background: #f3c85e; }
-  .fine {
-    grid-column: 1 / -1;
-    font-size: 0.75rem;
-    color: #b9b2b0;
-    line-height: 1.5;
-  }
+  button.join:disabled { opacity: 0.6; cursor: wait; }
+  .fine { grid-column: 1 / -1; font-size: 0.75rem; color: #b9b2b0; line-height: 1.5; }
+  #signup-error { grid-column: 1 / -1; display: none; color: #ff9d9d; font-weight: 600; font-size: 0.9rem; }
   #thanks {
     display: none;
     font-family: "Archivo", sans-serif;
@@ -239,10 +233,10 @@
     color: var(--gold);
     padding: 20px 0;
   }
-  .signup .stage {
-    background:
-      linear-gradient(90deg, #0e0d0e 0%, rgba(14,13,14,0) 35%),
-      radial-gradient(circle at 70% 30%, #5a1a28 0%, #1a0b0f 60%);
+  .stage {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 70% 30%, #5a1a28 0%, #1a0b0f 60%);
     display: grid;
     place-items: center;
     color: #8c7f7c;
@@ -250,10 +244,12 @@
     font-size: 0.85rem;
     min-height: 320px;
   }
+  .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .signup .stage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0e0d0e 0%, rgba(14,13,14,0) 35%); z-index: 1; pointer-events: none; }
 
-  /* Pillars */
+  /* Platform */
   .pillars { padding: 88px 5vw; max-width: 1200px; margin: 0 auto; }
-  .pillars h2, .accountability h2 {
+  .pillars h2, .accountability h2, .voice h2 {
     font-family: "Archivo", sans-serif;
     font-weight: 900;
     font-size: clamp(2rem, 4vw, 3.2rem);
@@ -262,7 +258,7 @@
     margin-bottom: 12px;
   }
   .pillars > p.sub { max-width: 38em; margin-bottom: 48px; color: #4b4547; }
-  .pillar-list { display: grid; gap: 0; border-top: 3px solid var(--ink); }
+  .pillar-list { display: grid; border-top: 3px solid var(--ink); }
   .pillar {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -270,16 +266,16 @@
     padding: 32px 0;
     border-bottom: 1px solid var(--stone);
   }
-  .pillar h3 {
-    font-family: "Archivo", sans-serif;
-    font-weight: 800;
-    font-size: 1.6rem;
-    line-height: 1.15;
-    color: var(--maroon);
-  }
+  .pillar h3 { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 1.6rem; line-height: 1.15; color: var(--maroon); }
   .pillar p { max-width: 40em; }
   .pillar ul { margin: 12px 0 0 1.1em; }
   .pillar li { margin-bottom: 4px; }
+
+  /* Ask / advocate (single embedded form) */
+  .voice { padding: 88px 5vw; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px; align-items: start; }
+  .voice .intro p { max-width: 30em; color: #4b4547; margin-bottom: 14px; }
+  .ms-form iframe { width: 100%; height: 760px; border: 2px solid var(--ink); background: #fff; display: block; }
+  .ms-form .fallback { font-family: "Archivo", sans-serif; font-size: 0.9rem; margin-top: 10px; }
 
   /* Accountability */
   .accountability { background: var(--stone); padding: 80px 5vw; }
@@ -300,6 +296,8 @@
     justify-content: space-between;
   }
   footer p { max-width: 46em; }
+  footer a { text-underline-offset: 3px; }
+  footer a:hover { color: var(--gold); }
 
   @media (max-width: 860px) {
     nav ul { display: none; }
@@ -308,51 +306,11 @@
     .photo { min-height: 320px; }
     .pillar { grid-template-columns: 1fr; gap: 8px; }
     .steps { grid-template-columns: 1fr; }
-    form, .submit-row { grid-template-columns: 1fr; }
+    #signup-form, .submit-row { grid-template-columns: 1fr; }
     .strip { margin-top: 0; padding-top: 24px; }
+    .voice { grid-template-columns: 1fr; gap: 32px; }
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-  /* Ask / advocate form */
-  .voice { padding: 88px 5vw; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; }
-  .voice h2 { font-family: "Archivo", sans-serif; font-weight: 900; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 16px; }
-  .voice .intro p { max-width: 30em; color: #4b4547; margin-bottom: 14px; }
-  #voice-form { display: grid; gap: 18px; font-family: "Archivo", sans-serif; }
-  #voice-form fieldset { border: 0; }
-  #voice-form legend, #voice-form label { font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; display: block; }
-  .choices { display: flex; flex-wrap: wrap; gap: 8px; }
-  .choices input { position: absolute; opacity: 0; }
-  .choices label { margin: 0; padding: 10px 16px; border: 2px solid var(--ink); font-weight: 600; cursor: pointer; background: #fff; }
-  .choices input:checked + label { background: var(--maroon); border-color: var(--maroon); color: #fff; }
-  .choices input:focus-visible + label { outline: 3px solid var(--gold); outline-offset: 2px; }
-  #voice-form select, #voice-form textarea, #voice-form input[type=text], #voice-form input[type=email] {
-    width: 100%; padding: 14px; border: 2px solid var(--ink); font: inherit; background: #fff; border-radius: 0; color: var(--ink);
-  }
-  #voice-form textarea { min-height: 150px; resize: vertical; }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  #voice-form .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
-  #voice-form .check input { margin-top: 4px; }
-  #voice-form button { padding: 16px; border: 0; background: var(--maroon); color: #fff; font: inherit; font-weight: 800; font-size: 1.05rem; cursor: pointer; }
-  #voice-form button:hover { background: var(--maroon-deep); }
-  #voice-thanks { display: none; font-family: "Archivo", sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--maroon); }
-  #voice-error { display: none; font-family: "Archivo", sans-serif; color: #a30000; font-weight: 600; }
-  @media (max-width: 860px) { .voice { grid-template-columns: 1fr; gap: 32px; } .two { grid-template-columns: 1fr; } }
-
-  /* Photos */
-  .photo { position: relative; }
-  .photo img { width: min(100%, 520px); max-height: 640px; object-fit: contain; object-position: bottom; display: block; position: relative; z-index: 1; }
-  .stage { position: relative; overflow: hidden; }
-  .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .signup .stage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0e0d0e 0%, rgba(14,13,14,0) 35%); z-index: 1; pointer-events: none; }
-
-  /* Voice tabs + Microsoft Form */
-  .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 3px solid var(--ink); font-family: "Archivo", sans-serif; }
-  .tabs button { flex: 1; padding: 14px 12px; border: 0; background: transparent; font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); }
-  .tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
-  .tabs button:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
-  .ms-form iframe { width: 100%; height: 720px; border: 0; background: #fff; }
-  .ms-form .fallback { font-family: "Archivo", sans-serif; font-size: 0.9rem; margin-top: 10px; }
-  [hidden] { display: none !important; }
 </style>
 </head>
 <body>
@@ -406,6 +364,8 @@
     <h2>Help shape this campaign. Join the team and tell me what to fix first.</h2>
 
     <form id="signup-form" aria-label="Join the campaign">
+      <input type="hidden" name="_subject" value="New Moore4USG team signup">
+      <input type="hidden" name="source" value="Join the team form">
       <div class="field">
         <label for="email">UChicago email*</label>
         <input id="email" name="email" type="email" placeholder="cnetid@uchicago.edu" required>
@@ -427,6 +387,7 @@
         </div>
         <button class="join" type="submit">I'm in</button>
       </div>
+      <p id="signup-error" role="alert">That didn't go through. Check your connection and try again, or email moorecj@uchicago.edu.</p>
       <p class="fine">By submitting, you agree to get campaign emails and, if you add a number, a few texts. Reply STOP to unsubscribe at any time.</p>
     </form>
     <p id="thanks" role="status">Thanks. You're on the list.</p>
@@ -448,7 +409,7 @@
       <div>
         <p>Community life at UChicago is crucial to our experience as college students. Some areas of community still need to be improved.</p>
         <ul>
-          <li>Improve & Expand Third Spaces</li>
+          <li>Improve &amp; Expand Third Spaces</li>
           <li>Increase 2 UChicago Dorm Guest limit to 4</li>
           <li>Done by: Spring Quarter</li>
         </ul>
@@ -457,7 +418,7 @@
     <article class="pillar">
       <h3>Access</h3>
       <div>
-        <p>On many fronts, students face issues with access to basic necessities. Let's work to make campus more accessible</p>
+        <p>On many fronts, students face issues with access to basic necessities. Let's work to make campus more accessible.</p>
         <ul>
           <li>Introduce more robust and accessible financial assistance programs for printing and laundry.</li>
           <li>Extend maroon dollars to be used for laundry and printing.</li>
@@ -469,10 +430,10 @@
     <article class="pillar">
       <h3>Transparency</h3>
       <div>
-        <p>Where does tuition money go? How is USG & the University spending their money?</p>
+        <p>Where does tuition money go? How is USG &amp; the University spending their money?</p>
         <ul>
           <li>Introduce more in-depth online tuition breakdown</li>
-          <li>Provide receipts for Student Government Finance Comittee purchases</li>
+          <li>Provide receipts for Student Government Finance Committee purchases</li>
           <li>Done by: Spring Quarter</li>
         </ul>
       </div>
@@ -483,50 +444,14 @@
 <section class="voice" id="voice">
   <div class="intro">
     <h2>Ask me anything. Push me on what matters.</h2>
-    <p>Pick a topic, tell me what's on your mind, and I'll read every message. Questions get a public answer on this site. Ideas and concerns shape the platform.</p>
-    <p>You can submit anonymously. If you leave an email, I'll write back personally.</p>
+    <p>Send me a question, an idea, or a concern. I'll read every message. Questions get a public answer on this site, and ideas and concerns shape the platform.</p>
+    <p>If you leave your email, I'll write back personally.</p>
   </div>
-  <div>
-    <div class="tabs" role="tablist" aria-label="Choose how to reach me">
-      <button role="tab" id="tab-advocate" aria-selected="true" aria-controls="panel-advocate">Ask or advocate</button>
-      <button role="tab" id="tab-contact" aria-selected="false" aria-controls="panel-contact">Questions &amp; contact</button>
-    </div>
-    <div role="tabpanel" id="panel-advocate" aria-labelledby="tab-advocate">
-    <form id="voice-form">
-      <fieldset>
-        <legend>What are you sending?</legend>
-        <div class="choices">
-          <input type="radio" name="type" id="t1" value="Question" checked><label for="t1">A question</label>
-          <input type="radio" name="type" id="t2" value="Idea"><label for="t2">An idea</label>
-          <input type="radio" name="type" id="t3" value="Concern"><label for="t3">A concern</label>
-          <input type="radio" name="type" id="t4" value="Support a proposal"><label for="t4">I support a proposal</label>
-        </div>
-      </fieldset>
-      <div>
-        <label for="category">Topic*</label>
-        <select id="category" name="category" required><option value="">Choose a topic</option><option>Academics &amp; registration</option><option>Housing &amp; dining</option><option>Libraries &amp; study spaces</option><option>Health, wellness &amp; safety</option><option>Affordability &amp; student costs</option><option>RSOs &amp; student life</option><option>Graduate &amp; professional students</option><option>Accessibility &amp; inclusion</option><option>Transportation &amp; campus life</option><option>Something else</option></select>
-      </div>
-      <div>
-        <label for="message">Your message*</label>
-        <textarea id="message" name="message" required placeholder="What should I know, answer, or fight for?"></textarea>
-      </div>
-      <div class="two">
-        <div><label for="vname">Name (optional)</label><input id="vname" name="name" type="text"></div>
-        <div><label for="vemail">Email (optional, for a reply)</label><input id="vemail" name="email" type="email"></div>
-      </div>
-      <label class="check"><input type="checkbox" name="public_ok" value="yes"> You may quote this publicly (without my name) in an answer on the site.</label>
-      <button type="submit">Send to the campaign</button>
-      <p id="voice-error" role="alert">Something went wrong. Please try again or email me directly.</p>
-    </form>
-    <p id="voice-thanks" role="status">Got it. Thank you for speaking up.</p>
-    </div>
-    <div role="tabpanel" id="panel-contact" aria-labelledby="tab-contact" class="ms-form" hidden>
-      <!-- Paste your Microsoft Forms embed URL in src below -->
-      <iframe title="Questions, concerns and contact form"
-              src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=kiywgyZf7UieW2wvykao5kWGxSGKIM1Am97bpQHBFktUNVlQMVBWRDdQQjJHMjdXVlk3MlI5QldGQy4u&embed=true"
-              loading="lazy" allowfullscreen></iframe>
-      <p class="fallback">Form not loading? <a href="PASTE_YOUR_MICROSOFT_FORMS_SHARE_LINK_HERE" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
-    </div>
+  <div class="ms-form">
+    <iframe title="Ask a question, share an idea, or get in touch"
+            src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=kiywgyZf7UieW2wvykao5kWGxSGKIM1Am97bpQHBFktUNVlQMVBWRDdQQjJHMjdXVlk3MlI5QldGQy4u&embed=true"
+            loading="lazy" allowfullscreen></iframe>
+    <p class="fallback">Form not loading? <a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=kiywgyZf7UieW2wvykao5kWGxSGKIM1Am97bpQHBFktUNVlQMVBWRDdQQjJHMjdXVlk3MlI5QldGQy4u" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
   </div>
 </section>
 
@@ -543,70 +468,36 @@
 
 <footer>
   <p>Built by Moore4USG Campaign. This campaign is not affiliated with or endorsed by the University of Chicago.</p>
-  <p>moorecj@uchicago.edu &nbsp;|&nbsp; @moore4usg &nbsp;</p>
+  <p>
+    <a href="mailto:moorecj@uchicago.edu">moorecj@uchicago.edu</a> &nbsp;|&nbsp;
+    <a href="https://www.instagram.com/moore4usg/" target="_blank" rel="noopener">@moore4usg on Instagram</a>
+  </p>
 </footer>
 
 <script>
-  // ---- GOOGLE FORM SETUP: fill these in (steps are in the chat) ----
-  const FORM_URL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
-  const ENTRY = {
-    email: "entry.0000000001",
-    year:  "entry.0000000002",
-    phone: "entry.0000000003"
-  };
-  // --------------------------------------------------------------------
+  // "Join the team" form -> Formspree
+  const SIGNUP_ENDPOINT = "https://formspree.io/f/xaeqjnro";
 
-  document.getElementById('signup-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const data = new FormData();
-    data.append(ENTRY.email, this.email.value);
-    data.append(ENTRY.year, this.year.value);
-    data.append(ENTRY.phone, this.phone.value);
-
-    const done = () => {
-      this.style.display = 'none';
-      document.getElementById('thanks').style.display = 'block';
-    };
-    if (FORM_URL.includes("YOUR_FORM_ID")) { done(); return; } // demo mode until configured
-    // no-cors: Google accepts the submission but the response can't be read, which is fine here
-    fetch(FORM_URL, { method: "POST", mode: "no-cors", body: data }).then(done).catch(done);
-  });
-
-  // ---- Ask / advocate form ----
-  // Paste your Formspree URL here (e.g. "https://formspree.io/f/abcdwxyz").
-  // Leave empty to run in demo mode (nothing is sent).
-  const VOICE_ENDPOINT = "https://formspree.io/f/xaeqjnro";
-  document.getElementById('voice-form').addEventListener('submit', async function (e) {
+  document.getElementById('signup-form').addEventListener('submit', async function (e) {
     e.preventDefault();
     const form = this;
-    const err = document.getElementById('voice-error');
+    const btn = form.querySelector('button[type="submit"]');
+    const err = document.getElementById('signup-error');
     err.style.display = 'none';
+    btn.disabled = true;
     try {
-      if (VOICE_ENDPOINT) {
-        const res = await fetch(VOICE_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form)
-        });
-        if (!res.ok) throw new Error('Bad response');
-      }
+      const res = await fetch(SIGNUP_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+      if (!res.ok) throw new Error('Bad response');
       form.style.display = 'none';
-      document.getElementById('voice-thanks').style.display = 'block';
+      document.getElementById('thanks').style.display = 'block';
     } catch (x) {
       err.style.display = 'block';
+      btn.disabled = false;
     }
-  });
-
-  // ---- Tabs ----
-  const tabs = [['tab-advocate','panel-advocate'],['tab-contact','panel-contact']];
-  tabs.forEach(([t]) => {
-    document.getElementById(t).addEventListener('click', () => {
-      tabs.forEach(([tid,pid]) => {
-        const on = tid === t;
-        document.getElementById(tid).setAttribute('aria-selected', on);
-        document.getElementById(pid).hidden = !on;
-      });
-    });
   });
 </script>
 </body>
