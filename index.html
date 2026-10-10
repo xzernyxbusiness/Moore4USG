@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>[Your Name] for Student Government</title>
+<title> Chazlance Moore for Undergraduate Student Government</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
@@ -337,6 +337,22 @@
   #voice-thanks { display: none; font-family: "Archivo", sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--maroon); }
   #voice-error { display: none; font-family: "Archivo", sans-serif; color: #a30000; font-weight: 600; }
   @media (max-width: 860px) { .voice { grid-template-columns: 1fr; gap: 32px; } .two { grid-template-columns: 1fr; } }
+
+  /* Photos */
+  .photo { position: relative; }
+  .photo img { width: min(100%, 520px); max-height: 640px; object-fit: contain; object-position: bottom; display: block; position: relative; z-index: 1; }
+  .stage { position: relative; overflow: hidden; }
+  .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .signup .stage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0e0d0e 0%, rgba(14,13,14,0) 35%); z-index: 1; pointer-events: none; }
+
+  /* Voice tabs + Microsoft Form */
+  .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 3px solid var(--ink); font-family: "Archivo", sans-serif; }
+  .tabs button { flex: 1; padding: 14px 12px; border: 0; background: transparent; font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+  .tabs button:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+  .ms-form iframe { width: 100%; height: 720px; border: 0; background: #fff; }
+  .ms-form .fallback { font-family: "Archivo", sans-serif; font-size: 0.9rem; margin-top: 10px; }
+  [hidden] { display: none !important; }
 </style>
 </head>
 <body>
@@ -368,6 +384,9 @@
   </h1>
   <div class="photo">
     <div class="photo-placeholder" role="img" aria-label="Photo of the candidate goes here">Your photo here</div>
+    <img src="images/hero.png" alt="[Your Name], candidate for [Position]"
+         onload="this.parentElement.querySelector('.photo-placeholder').style.display='none'"
+         onerror="this.style.display='none'">
   </div>
 </section>
 
@@ -413,7 +432,12 @@
     </form>
     <p id="thanks" role="status">Thanks. You're on the list.</p>
   </div>
-  <div class="stage" aria-hidden="true">Event photo or banner</div>
+  <div class="stage">
+    <span aria-hidden="true">Event photo or banner</span>
+    <img src="images/event.jpg" alt="[Describe the photo, e.g. Name speaking with students on the Quad]"
+         onload="this.parentElement.querySelector('span').style.display='none'"
+         onerror="this.style.display='none'">
+  </div>
 </section>
 
 <section class="pillars" id="platform">
@@ -463,6 +487,11 @@
     <p>You can submit anonymously. If you leave an email, I'll write back personally.</p>
   </div>
   <div>
+    <div class="tabs" role="tablist" aria-label="Choose how to reach me">
+      <button role="tab" id="tab-advocate" aria-selected="true" aria-controls="panel-advocate">Ask or advocate</button>
+      <button role="tab" id="tab-contact" aria-selected="false" aria-controls="panel-contact">Questions &amp; contact</button>
+    </div>
+    <div role="tabpanel" id="panel-advocate" aria-labelledby="tab-advocate">
     <form id="voice-form">
       <fieldset>
         <legend>What are you sending?</legend>
@@ -490,6 +519,14 @@
       <p id="voice-error" role="alert">Something went wrong. Please try again or email me directly.</p>
     </form>
     <p id="voice-thanks" role="status">Got it. Thank you for speaking up.</p>
+    </div>
+    <div role="tabpanel" id="panel-contact" aria-labelledby="tab-contact" class="ms-form" hidden>
+      <!-- Paste your Microsoft Forms embed URL in src below -->
+      <iframe title="Questions, concerns and contact form"
+              src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=kiywgyZf7UieW2wvykao5kWGxSGKIM1Am97bpQHBFktUNVlQMVBWRDdQQjJHMjdXVlk3MlI5QldGQy4u&embed=true"
+              loading="lazy" allowfullscreen></iframe>
+      <p class="fallback">Form not loading? <a href="PASTE_YOUR_MICROSOFT_FORMS_SHARE_LINK_HERE" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -558,6 +595,18 @@
     } catch (x) {
       err.style.display = 'block';
     }
+  });
+
+  // ---- Tabs ----
+  const tabs = [['tab-advocate','panel-advocate'],['tab-contact','panel-contact']];
+  tabs.forEach(([t]) => {
+    document.getElementById(t).addEventListener('click', () => {
+      tabs.forEach(([tid,pid]) => {
+        const on = tid === t;
+        document.getElementById(tid).setAttribute('aria-selected', on);
+        document.getElementById(pid).hidden = !on;
+      });
+    });
   });
 </script>
 </body>
